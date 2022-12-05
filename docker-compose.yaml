@@ -9,3 +9,9 @@ services:
       MYSQL_PASSWORD: root
     ports:
       - '3306:3306'
+  sqlc:
+    container_name: sqlc
+    image: kjconroy/sqlc
+    working_dir: /app
+    volumes:
+      - ./:/app
