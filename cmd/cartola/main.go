@@ -6,7 +6,7 @@ import (
 	"net/http"
 
 	"github.com/confluentinc/confluent-kafka-go/kafka"
-	"github.com/go-chi/chi"
+	"github.com/go-chi/chi/v5"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/johnkgs/imersao11-consolidation/internal/infra/db"
 	httpHandler "github.com/johnkgs/imersao11-consolidation/internal/infra/http"
