@@ -28,6 +28,7 @@ func main() {
 
 	router := chi.NewRouter()
 	router.Get("/players", httpHandler.ListPlayersHandler(ctx, *db.New(dtb)))
+	router.Get("/my-teams/{teamID}/players", httpHandler.ListMyTeamPlayersHandler(ctx, *db.New(dtb)))
 
 	if err = http.ListenAndServe(":8080", router); err != nil {
 		panic(err)
