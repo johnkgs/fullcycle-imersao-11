@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"net/http"
 
+	"github.com/go-chi/chi"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/johnkgs/imersao11-consolidation/internal/infra/db"
 	httpHandler "github.com/johnkgs/imersao11-consolidation/internal/infra/http"
@@ -25,9 +26,10 @@ func main() {
 	}
 	registerRepositories(uow)
 
-	http.HandleFunc("/players", httpHandler.ListPlayersHandler(ctx, *db.New(dtb)))
+	router := chi.NewRouter()
+	router.Get("/players", httpHandler.ListPlayersHandler(ctx, *db.New(dtb)))
 
-	if err = http.ListenAndServe(":8080", nil); err != nil {
+	if err = http.ListenAndServe(":8080", router); err != nil {
 		panic(err)
 	}
 }
