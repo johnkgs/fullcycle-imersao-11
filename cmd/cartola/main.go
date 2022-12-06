@@ -5,17 +5,19 @@ import (
 	"database/sql"
 	"net/http"
 
+	"github.com/confluentinc/confluent-kafka-go/kafka"
 	"github.com/go-chi/chi"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/johnkgs/imersao11-consolidation/internal/infra/db"
 	httpHandler "github.com/johnkgs/imersao11-consolidation/internal/infra/http"
+	"github.com/johnkgs/imersao11-consolidation/internal/infra/kafka/consumer"
 	"github.com/johnkgs/imersao11-consolidation/internal/infra/repository"
 	uow "github.com/johnkgs/imersao11-consolidation/pkg"
 )
 
 func main() {
 	ctx := context.Background()
-	dtb, err := sql.Open("mysql", "root:root@tcp(localhost:3306)/cartola?parseTime=true")
+	dtb, err := sql.Open("mysql", "root:root@tcp(mysql:3306)/cartola?parseTime=true")
 	if err != nil {
 		panic(err)
 	}
@@ -33,9 +35,13 @@ func main() {
 	router.Get("/matches", httpHandler.ListMatchesHandler(ctx, repository.NewMatchRepository(dtb)))
 	router.Get("/matches/{matchID}", httpHandler.ListMatchByIDHandler(ctx, repository.NewMatchRepository(dtb)))
 
-	if err = http.ListenAndServe(":8080", router); err != nil {
-		panic(err)
-	}
+	go http.ListenAndServe(":8080", router)
+
+	var topics = []string{"newMatch", "chooseTeam", "newPlayer", "matchUpdateResult", "newAction"}
+
+	msgChannel := make(chan *kafka.Message)
+	go consumer.Consume(topics, "broker:9094", msgChannel)
+	consumer.ProcessEvents(ctx, msgChannel, uow)
 }
 
 func registerRepositories(uow *uow.Uow) {
