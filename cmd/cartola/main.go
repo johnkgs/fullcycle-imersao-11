@@ -3,9 +3,11 @@ package main
 import (
 	"context"
 	"database/sql"
+	"net/http"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/johnkgs/imersao11-consolidation/internal/infra/db"
+	httpHandler "github.com/johnkgs/imersao11-consolidation/internal/infra/http"
 	"github.com/johnkgs/imersao11-consolidation/internal/infra/repository"
 	uow "github.com/johnkgs/imersao11-consolidation/pkg"
 )
@@ -22,6 +24,12 @@ func main() {
 		panic(err)
 	}
 	registerRepositories(uow)
+
+	http.HandleFunc("/players", httpHandler.ListPlayersHandler(ctx, *db.New(dtb)))
+
+	if err = http.ListenAndServe(":8080", nil); err != nil {
+		panic(err)
+	}
 }
 
 func registerRepositories(uow *uow.Uow) {
