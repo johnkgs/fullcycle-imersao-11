@@ -1,17 +1,45 @@
 version: '3.8'
+
 services:
   mysql:
     image: mysql:5.7
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: courses
+      MYSQL_DATABASE: cartola
       MYSQL_PASSWORD: root
     ports:
       - '3306:3306'
+    networks:
+      db_network:
+        aliases:
+          - database
+
   sqlc:
     container_name: sqlc
     image: kjconroy/sqlc
     working_dir: /app
     volumes:
       - ./:/app
+
+  golang-migrate:
+    container_name: golang-migrate
+    image: migrate/migrate
+    networks:
+      - db_network
+    links:
+      - mysql
+    volumes:
+      - ./sql/migrations:/migrations
+    command:
+      [
+        '-path',
+        '/migrations/',
+        '-database',
+        'mysql://root:root@tcp(mysql:3306)/cartola?parseTime=true',
+        'up',
+        '2'
+      ]
+
+networks:
+  db_network:
