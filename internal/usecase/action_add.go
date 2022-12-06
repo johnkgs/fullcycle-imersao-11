@@ -44,7 +44,7 @@ func (a *ActionAddUseCase) Execute(ctx context.Context, input ActionAddInput) er
 			return err
 		}
 
-		theAction := entity.NewGameAction(input.PlayerID, input.Minute, input.Action, score)
+		theAction := entity.NewGameAction(input.PlayerID, input.Minute, input.Action, score, input.TeamID)
 		match.Actions = append(match.Actions, theAction)
 
 		err = matchRepo.SaveActions(ctx, match, float64(score))
