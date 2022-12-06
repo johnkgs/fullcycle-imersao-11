@@ -10,10 +10,6 @@ services:
       MYSQL_PASSWORD: root
     ports:
       - '3306:3306'
-    networks:
-      db_network:
-        aliases:
-          - database
     extra_hosts:
       - 'host.docker.internal:172.17.0.1'
 
@@ -27,9 +23,7 @@ services:
   golang-migrate:
     container_name: golang-migrate
     image: migrate/migrate
-    networks:
-      - db_network
-    links:
+    depends_on:
       - mysql
     volumes:
       - ./sql/migrations:/migrations
@@ -114,5 +108,3 @@ services:
         kafka-topics --create --topic=newPlayer --if-not-exists --bootstrap-server=broker:29092 &&
         kafka-topics --create --topic=chooseTeam --if-not-exists --bootstrap-server=broker:29092 &&
         kafka-topics --create --topic=newAction --if-not-exists --bootstrap-server=broker:29092"
-networks:
-  db_network:
