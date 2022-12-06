@@ -7,15 +7,12 @@ import (
 	"github.com/johnkgs/imersao11-consolidation/pkg/utils"
 )
 
-func ChoosePlayers(myTeam *entity.MyTeam, players []entity.Player) error {
+func ChoosePlayers(myTeam *entity.MyTeam, myPlayers []entity.Player) error {
 	totalCost := 0.0
-	totalEarned := 0.0
+	totalEarned := calculateTotalEarned(myPlayers, myPlayers)
 
-	for _, player := range players {
-		if playerInMyTeam(player, myTeam) && !playerInPlayerList(player, players) {
-			totalEarned += player.Price
-		}
-		if !playerInMyTeam(player, myTeam) && playerInPlayerList(player, players) {
+	for _, player := range myPlayers {
+		if !playerInMyTeam(player, myTeam) && playerInPlayerList(player, myPlayers) {
 			totalCost += player.Price
 		}
 	}
@@ -27,7 +24,7 @@ func ChoosePlayers(myTeam *entity.MyTeam, players []entity.Player) error {
 	myTeam.Score += totalEarned - totalCost
 	myTeam.Players = []string{}
 
-	for _, player := range players {
+	for _, player := range myPlayers {
 		myTeam.Players = append(myTeam.Players, player.ID)
 	}
 
@@ -47,4 +44,14 @@ func playerInPlayerList(player entity.Player, selectedPlayers []entity.Player) b
 	}
 
 	return utils.Contains(players, player.ID)
+}
+
+func calculateTotalEarned(myPlayers []entity.Player, players []entity.Player) float64 {
+	var totalEarned float64
+	for _, myPlayer := range myPlayers {
+		if !playerInPlayerList(myPlayer, players) {
+			totalEarned += myPlayer.Price
+		}
+	}
+	return totalEarned
 }
