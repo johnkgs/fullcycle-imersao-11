@@ -24,6 +24,7 @@
 		"sourcery.sourcery",
 		"ms-python.isort",
 		"eamodio.gitlens",
+		"bungcip.better-toml",
 		"visualstudioexptteam.vscodeintellicode",
 		"streetsidesoftware.code-spell-checker",
 		"streetsidesoftware.code-spell-checker-portuguese-brazilian"
