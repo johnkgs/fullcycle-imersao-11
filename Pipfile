@@ -11,6 +11,8 @@ prettify = "sh -c 'isort . && black .'"
 
 [packages]
 django = "4.1.4"
+django-environ = "*"
+dj-database-url = "*"
 
 [dev-packages]
 black = "22.10.0"
