@@ -8,4 +8,4 @@ extend-exclude = '''
 
 [tool.isort]
 profile = "black"
-skip = [".gitignore", ".dockerignore", ".venv"]
+skip = [".gitignore", ".dockerignore", ".venv", "migrations"]
