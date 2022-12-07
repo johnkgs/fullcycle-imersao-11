@@ -7,6 +7,7 @@ name = "pypi"
 server = "python manage.py runserver 0.0.0.0:8000"
 migrate = "python manage.py migrate"
 make_migrations = "python manage.py makemigrations"
+prettify = "sh -c 'isort . && black .'"
 
 [packages]
 django = "4.1.4"
