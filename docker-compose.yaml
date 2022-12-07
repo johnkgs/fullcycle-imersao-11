@@ -5,9 +5,9 @@ services:
     image: mysql:5.7
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: cartola
-      MYSQL_PASSWORD: root
+      MYSQL_DATABASE: '${DB_DATABASE}'
+      MYSQL_ROOT_PASSWORD: '${DB_ROOT_PASSWORD}'
+      MYSQL_PASSWORD: '${DB_PASSWORD}'
     ports:
       - '3306:3306'
     extra_hosts:
@@ -32,7 +32,7 @@ services:
         '-path',
         '/migrations/',
         '-database',
-        'mysql://root:root@tcp(mysql:3306)/cartola?parseTime=true',
+        '${DB_DRIVER_NAME}://${DB_SOURCE_NAME}',
         'up',
         '2'
       ]
