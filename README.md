@@ -2,9 +2,8 @@
 
 ## Requerimentos
 
-- Python >= 3.10.2
-- pipenv >= 2022.11.30
-
+- [Python](https://www.python.org/) >= 3.10.2
+- [pipenv](https://pipenv.pypa.io/en/latest/) >= 2022.11.30
 
 ## Como executar o projeto
 
@@ -18,4 +17,10 @@ Executar servidor:
 
 ```bash
 $ pipenv run server
+```
+
+Executar formatador de código:
+
+```bash
+$ pipenv run prettify
 ```
