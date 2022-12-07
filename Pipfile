@@ -6,6 +6,7 @@ name = "pypi"
 [scripts]
 server = "python manage.py runserver 0.0.0.0:8000"
 migrate = "python manage.py migrate"
+make_migrations = "python manage.py makemigrations"
 
 [packages]
 django = "4.1.4"
