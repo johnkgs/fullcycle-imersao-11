@@ -8,6 +8,7 @@ import (
 	"github.com/confluentinc/confluent-kafka-go/kafka"
 	"github.com/go-chi/chi/v5"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/johnkgs/imersao11-consolidation/internal/infra/config/envs"
 	"github.com/johnkgs/imersao11-consolidation/internal/infra/db"
 	httpHandler "github.com/johnkgs/imersao11-consolidation/internal/infra/http"
 	"github.com/johnkgs/imersao11-consolidation/internal/infra/kafka/consumer"
@@ -16,8 +17,10 @@ import (
 )
 
 func main() {
+	envs.SetupEnvs()
+
 	ctx := context.Background()
-	dtb, err := sql.Open("mysql", "root:root@tcp(mysql:3306)/cartola?parseTime=true")
+	dtb, err := sql.Open(envs.GetEnvs().DB.DriverName, envs.GetEnvs().DB.SourceName)
 	if err != nil {
 		panic(err)
 	}
@@ -26,8 +29,13 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	registerRepositories(uow)
 
+	registerRepositories(uow)
+	initServer(ctx, dtb)
+	initKafka(ctx, uow)
+}
+
+func initServer(ctx context.Context, dtb *sql.DB) {
 	router := chi.NewRouter()
 	router.Get("/players", httpHandler.ListPlayersHandler(ctx, *db.New(dtb)))
 	router.Get("/my-teams/{teamID}/players", httpHandler.ListMyTeamPlayersHandler(ctx, *db.New(dtb)))
@@ -36,11 +44,19 @@ func main() {
 	router.Get("/matches/{matchID}", httpHandler.ListMatchByIDHandler(ctx, repository.NewMatchRepository(dtb)))
 
 	go http.ListenAndServe(":8080", router)
+}
 
-	var topics = []string{"newMatch", "chooseTeam", "newPlayer", "matchUpdateResult", "newAction"}
+func initKafka(ctx context.Context, uow *uow.Uow) {
+	var topics = []string{
+		"newMatch",
+		"chooseTeam",
+		"newPlayer",
+		"matchUpdateResult",
+		"newAction",
+	}
 
 	msgChannel := make(chan *kafka.Message)
-	go consumer.Consume(topics, "broker:9094", msgChannel)
+	go consumer.Consume(topics, msgChannel)
 	consumer.ProcessEvents(ctx, msgChannel, uow)
 }
 

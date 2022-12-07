@@ -5,14 +5,15 @@ import (
 	"fmt"
 
 	"github.com/confluentinc/confluent-kafka-go/kafka"
+	"github.com/johnkgs/imersao11-consolidation/internal/infra/config/envs"
 	"github.com/johnkgs/imersao11-consolidation/internal/infra/kafka/factory"
 	uow "github.com/johnkgs/imersao11-consolidation/pkg"
 )
 
-func Consume(topics []string, servers string, msgChannel chan *kafka.Message) {
+func Consume(topics []string, msgChannel chan *kafka.Message) {
 	configMap := &kafka.ConfigMap{
-		"bootstrap.servers": servers,
-		"group.id":          "gostats",
+		"bootstrap.servers": envs.GetEnvs().Kafka.Servers,
+		"group.id":          envs.GetEnvs().Kafka.GroupId,
 		"auto.offset.reset": "earliest",
 	}
 	kafkaConsumer, err := kafka.NewConsumer(configMap)
