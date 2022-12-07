@@ -35,8 +35,11 @@ def publish_new_match_result(sender, instance: Match, created: bool, **kwargs):
     instance._pre_save_instance: Match = instance._pre_save_instance
     if (
         not created
-        and instance._pre_save_instance.team_a_goal != instance.team_a_goal
-        or instance._pre_save_instance.team_b_goal != instance.team_b_goal
+        and instance._pre_save_instance
+        and (
+            instance._pre_save_instance.team_a_goal != instance.team_a_goal
+            or instance._pre_save_instance.team_b_goal != instance.team_b_goal
+        )
     ):
         print("Match result published")
 
