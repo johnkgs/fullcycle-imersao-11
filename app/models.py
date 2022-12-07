@@ -17,6 +17,7 @@ class Team(models.Model):
         return self.name
 
 
+# Modal apenas decorativo
 class MyTeam(models.Model):
     players = models.ManyToManyField(Player)
 
