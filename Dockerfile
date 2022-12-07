@@ -8,8 +8,6 @@ USER python
 
 WORKDIR /home/python/app
 
-ENV PIPENV_VENV_IN_PROJECT=1
-ENV PIPENV_IGNORE_VIRTUALENVS=1
+ENV PIPENV_VENV_IN_PROJECT=True
 
-# Manter um container (fica lendo o dispositivo nulo do linux)
-CMD ["tail", "-f", "/dev/null"] 
+CMD ["./.docker/start.dev.sh"]
