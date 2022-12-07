@@ -3,6 +3,10 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 name = "pypi"
 
+[scripts]
+server = "python manage.py runserver 0.0.0.0:8000"
+migrate = "python manage.py migrate"
+
 [packages]
 django = "4.1.4"
 
