@@ -1,0 +1,11 @@
+[tool.black]
+line-length = 80
+extend-exclude = '''
+/(
+  migrations
+)/
+'''
+
+[tool.isort]
+profile = "black"
+skip = [".gitignore", ".dockerignore", ".venv"]
