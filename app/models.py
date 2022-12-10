@@ -1,8 +1,17 @@
+import uuid
+
 from django.db import models
 
 
+class UUIDModel(models.Model):
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+
+    class Meta:
+        abstract = True
+
+
 # Create your models here.
-class Player(models.Model):
+class Player(UUIDModel):
     name = models.CharField(max_length=50)
     initial_price = models.FloatField()
 
@@ -10,7 +19,7 @@ class Player(models.Model):
         return self.name
 
 
-class Team(models.Model):
+class Team(UUIDModel):
     name = models.CharField(max_length=50)
 
     def __str__(self):
@@ -18,14 +27,14 @@ class Team(models.Model):
 
 
 # Modal apenas decorativo
-class MyTeam(models.Model):
+class MyTeam(UUIDModel):
     players = models.ManyToManyField(Player)
 
     def __str__(self):
         return [player.name for player in self.players.all()].__str__()
 
 
-class Match(models.Model):
+class Match(UUIDModel):
     match_date = models.DateTimeField()
     team_a = models.ForeignKey(
         Team, on_delete=models.PROTECT, related_name="team_a_matches"
@@ -40,7 +49,7 @@ class Match(models.Model):
         return f"{self.team_a.name} x {self.team_b.name}"
 
 
-class Action(models.Model):
+class Action(UUIDModel):
     player = models.ForeignKey(Player, on_delete=models.PROTECT)
     team = models.ForeignKey(Team, on_delete=models.PROTECT)
     minutes = models.IntegerField()
