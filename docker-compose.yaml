@@ -2,6 +2,8 @@ version: "3.8"
 
 services:
     app:
+        networks:
+            - default
         build: .
         volumes:
             - ./:/home/python/app
@@ -9,3 +11,7 @@ services:
             - 8000:8000
         extra_hosts:
             - "host.docker.internal:172.17.0.1"
+networks:
+    default:
+        external:
+            name: kafka_default
