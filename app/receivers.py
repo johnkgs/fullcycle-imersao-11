@@ -32,7 +32,7 @@ def publish_team_created(sender, instance: Team, created: bool, **kwargs):
 @receiver(post_save, sender=MyTeam)
 def publish_my_players_saved(sender, instance: MyTeam, created: bool, **kwargs):
     print("My players saved")
-    my_team = Team.objects.get(pk=instance.id)
+    my_team = MyTeam.objects.get(pk=instance.id)
     safe_publish_message(
         "chooseTeam",
         json.dumps(
