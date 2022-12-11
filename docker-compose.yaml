@@ -35,6 +35,8 @@ services:
       ]
 
   goapp:
+    networks:
+      - default
     build: .
     ports:
       - '8080:8080'
@@ -43,3 +45,8 @@ services:
     platform: linux/amd64
     extra_hosts:
       - 'host.docker.internal:172.17.0.1'
+
+networks:
+  default:
+    external:
+      name: kafka_default
