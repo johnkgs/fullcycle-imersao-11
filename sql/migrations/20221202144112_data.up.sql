@@ -27,7 +27,7 @@
 -- INSERT INTO team_players (team_id, player_id) VALUES ('4da19d91-c700-4865-8333-80efc789a70f','5ce233a8-5cd8-4a85-8156-9ac255cf909e');
 -- INSERT INTO team_players (team_id, player_id) VALUES ('4da19d91-c700-4865-8333-80efc789a70f','c707bfa9-074e-4636-8772-633e4b56248d');
 
--- INSERT INTO my_team (id, name, score) VALUES ('22087246-01bc-46ad-a9d9-a99a6d734167', 'Meu Time FC', 100);
+INSERT INTO my_team (id, name, score) VALUES ('22087246-01bc-46ad-a9d9-a99a6d734167', 'Meu Time FC', 100);
 
 -- INSERT INTO my_team_players (my_team_id, player_id) VALUES ('22087246-01bc-46ad-a9d9-a99a6d734167', '4876d14f-d998-4abf-96ef-89fd53185464');
 -- INSERT INTO my_team_players (my_team_id, player_id) VALUES ('22087246-01bc-46ad-a9d9-a99a6d734167', '0b8f08d8-d871-4a42-b395-17d698f477db');
