@@ -8,13 +8,13 @@
 -- INSERT INTO players (id, name, price) VALUES ('5ce233a8-5cd8-4a85-8156-9ac255cf909e', 'Richarlison', 10.00);
 -- INSERT INTO players (id, name, price) VALUES ('c707bfa9-074e-4636-8772-633e4b56248d', 'Vinicius Junior', 10.00);
 
-INSERT INTO teams (id, name) VALUES ('76ef612d-acdf-48cd-af1c-9313d16ab642', 'Argentina');
-INSERT INTO teams (id, name) VALUES ('b30cf8e9-d02e-408e-9494-c4ae95b85b49', 'Alemanha');
-INSERT INTO teams (id, name) VALUES ('4da19d91-c700-4865-8333-80efc789a70f', 'Brasil');
-INSERT INTO teams (id, name) VALUES ('52f02f8d-bf04-4bd2-8b3d-28ec97e562a8', 'Bélgica');
-INSERT INTO teams (id, name) VALUES ('b503dc80-1f8c-4c8e-8218-a37049676815', 'Portugal');
-INSERT INTO teams (id, name) VALUES ('322dc42e-33a0-42cb-8c50-5d1e5fc0a308', 'Polônia');
-INSERT INTO teams (id, name) VALUES ('ace3abc1-003d-4baf-8d93-51135c437c7a', 'Inglaterra');
+-- INSERT INTO teams (id, name) VALUES ('76ef612d-acdf-48cd-af1c-9313d16ab642', 'Argentina');
+-- INSERT INTO teams (id, name) VALUES ('b30cf8e9-d02e-408e-9494-c4ae95b85b49', 'Alemanha');
+-- INSERT INTO teams (id, name) VALUES ('4da19d91-c700-4865-8333-80efc789a70f', 'Brasil');
+-- INSERT INTO teams (id, name) VALUES ('52f02f8d-bf04-4bd2-8b3d-28ec97e562a8', 'Bélgica');
+-- INSERT INTO teams (id, name) VALUES ('b503dc80-1f8c-4c8e-8218-a37049676815', 'Portugal');
+-- INSERT INTO teams (id, name) VALUES ('322dc42e-33a0-42cb-8c50-5d1e5fc0a308', 'Polônia');
+-- INSERT INTO teams (id, name) VALUES ('ace3abc1-003d-4baf-8d93-51135c437c7a', 'Inglaterra');
 
 -- /** fazer implementação com verificação da relação de teams com players **/
 -- INSERT INTO team_players (team_id, player_id) VALUES ('b503dc80-1f8c-4c8e-8218-a37049676815','4876d14f-d998-4abf-96ef-89fd53185464');
@@ -27,7 +27,7 @@ INSERT INTO teams (id, name) VALUES ('ace3abc1-003d-4baf-8d93-51135c437c7a', 'In
 -- INSERT INTO team_players (team_id, player_id) VALUES ('4da19d91-c700-4865-8333-80efc789a70f','5ce233a8-5cd8-4a85-8156-9ac255cf909e');
 -- INSERT INTO team_players (team_id, player_id) VALUES ('4da19d91-c700-4865-8333-80efc789a70f','c707bfa9-074e-4636-8772-633e4b56248d');
 
-INSERT INTO my_team (id, name, score) VALUES ('22087246-01bc-46ad-a9d9-a99a6d734167', 'Meu Time FC', 100);
+-- INSERT INTO my_team (id, name, score) VALUES ('22087246-01bc-46ad-a9d9-a99a6d734167', 'Meu Time FC', 100);
 
 -- INSERT INTO my_team_players (my_team_id, player_id) VALUES ('22087246-01bc-46ad-a9d9-a99a6d734167', '4876d14f-d998-4abf-96ef-89fd53185464');
 -- INSERT INTO my_team_players (my_team_id, player_id) VALUES ('22087246-01bc-46ad-a9d9-a99a6d734167', '0b8f08d8-d871-4a42-b395-17d698f477db');
