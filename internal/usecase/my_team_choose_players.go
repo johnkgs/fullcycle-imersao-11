@@ -26,7 +26,9 @@ func NewMyTeamChoosePlayersUseCase(uow uow.UowInterface) *MyTeamChoosePlayersUse
 func (u *MyTeamChoosePlayersUseCase) Execute(ctx context.Context, input MyTeamChoosePlayersInput) error {
 	err := u.Uow.Do(ctx, func(_ *uow.Uow) error {
 		myTeamRepo := u.getMyTeamRepository(ctx)
-		myTeam, err := myTeamRepo.FindByID(ctx, input.ID)
+		// myTeam, err := myTeamRepo.FindByID(ctx, input.ID)
+		// FIXME: Remove uniq team
+		myTeam, err := myTeamRepo.FindByID(ctx, "22087246-01bc-46ad-a9d9-a99a6d734167")
 		if err != nil {
 			return err
 		}
