@@ -1,4 +1,5 @@
 from django.urls import path
+
 from .api import update_players_in_my_team
 
 urlpatterns = [
