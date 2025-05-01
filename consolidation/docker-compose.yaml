@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: '${DB_DATABASE}'
+      MYSQL_ROOT_PASSWORD: '${DB_ROOT_PASSWORD}'
+    ports:
+      - '3306:3306'
+
+  sqlc:
+    container_name: sqlc
+    image: kjconroy/sqlc
+    working_dir: /app
+    volumes:
+      - ./:/app
+
+  golang-migrate:
+    container_name: golang-migrate
+    image: migrate/migrate
+    depends_on:
+      - mysql
+    volumes:
+      - ./sql/migrations:/migrations
+    command:
+      [
+        '-path',
+        '/migrations/',
+        '-database',
+        '${DB_DRIVER_NAME}://${DB_SOURCE_NAME}',
+        'up',
+        '2'
+      ]
+
+  goapp:
+    networks:
+      - default
+    build: .
+    ports:
+      - '8080:8080'
+    volumes:
+      - .:/go/app
+    platform: linux/amd64
+    extra_hosts:
+      - 'host.docker.internal:172.17.0.1'
+
+networks:
+  default:
+    external:
+      name: kafka_default

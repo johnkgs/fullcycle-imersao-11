@@ -1,0 +1,43 @@
+package usecase
+
+import (
+	"context"
+
+	"github.com/johnkgs/imersao11-consolidation/internal/domain/entity"
+	"github.com/johnkgs/imersao11-consolidation/internal/domain/repository"
+	uow "github.com/johnkgs/imersao11-consolidation/pkg"
+)
+
+type AddMyTeamInput struct {
+	ID    string
+	Name  string
+	Score int
+}
+
+type AddMyTeamUseCase struct {
+	Uow uow.UowInterface
+}
+
+func NewAddMyTeamUseCase(uow uow.UowInterface) *AddMyTeamUseCase {
+	return &AddMyTeamUseCase{
+		Uow: uow,
+	}
+}
+
+func (a *AddMyTeamUseCase) Execute(ctx context.Context, input AddMyTeamInput) error {
+	myTeamRepository := a.getMyTeamRepository(ctx)
+	myTeam := entity.NewMyTeam(input.ID, input.Name)
+	err := myTeamRepository.Create(ctx, myTeam)
+	if err != nil {
+		return err
+	}
+	return a.Uow.CommitOrRollback()
+}
+
+func (a *AddMyTeamUseCase) getMyTeamRepository(ctx context.Context) repository.MyTeamRepositoryInterface {
+	myTeamRepository, err := a.Uow.GetRepository(ctx, "MyTeamRepository")
+	if err != nil {
+		panic(err)
+	}
+	return myTeamRepository.(repository.MyTeamRepositoryInterface)
+}

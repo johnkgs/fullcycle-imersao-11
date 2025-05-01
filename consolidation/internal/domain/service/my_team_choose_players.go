@@ -1,0 +1,57 @@
+package service
+
+import (
+	"errors"
+
+	"github.com/johnkgs/imersao11-consolidation/internal/domain/entity"
+	"github.com/johnkgs/imersao11-consolidation/pkg/utils"
+)
+
+func ChoosePlayers(myTeam *entity.MyTeam, myPlayers []entity.Player) error {
+	totalCost := 0.0
+	totalEarned := calculateTotalEarned(myPlayers, myPlayers)
+
+	for _, player := range myPlayers {
+		if !playerInMyTeam(player, myTeam) && playerInPlayerList(player, myPlayers) {
+			totalCost += player.Price
+		}
+	}
+
+	if totalCost > myTeam.Score+totalEarned {
+		return errors.New("not enough money")
+	}
+
+	myTeam.Score += totalEarned - totalCost
+	myTeam.Players = []string{}
+
+	for _, player := range myPlayers {
+		myTeam.Players = append(myTeam.Players, player.ID)
+	}
+
+	return nil
+
+}
+
+func playerInMyTeam(player entity.Player, myTeam *entity.MyTeam) bool {
+	return utils.Contains(myTeam.Players, player.ID)
+}
+
+func playerInPlayerList(player entity.Player, selectedPlayers []entity.Player) bool {
+	var players = []string{}
+
+	for _, selectedPlayer := range selectedPlayers {
+		players = append(players, selectedPlayer.ID)
+	}
+
+	return utils.Contains(players, player.ID)
+}
+
+func calculateTotalEarned(myPlayers []entity.Player, players []entity.Player) float64 {
+	var totalEarned float64
+	for _, myPlayer := range myPlayers {
+		if !playerInPlayerList(myPlayer, players) {
+			totalEarned += myPlayer.Price
+		}
+	}
+	return totalEarned
+}
