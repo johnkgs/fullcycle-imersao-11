@@ -1,0 +1,25 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[scripts]
+server = "python manage.py runserver 0.0.0.0:8000"
+migrate = "python manage.py migrate"
+make_migrations = "python manage.py makemigrations"
+prettify = "sh -c 'isort . && black .'"
+
+[packages]
+django = "4.1.4"
+django-environ = "0.9.0"
+dj-database-url = "1.0.0"
+djangorestframework = "3.14.0"
+django-cors-headers = "3.13.0"
+confluent-kafka = "1.9.2"
+
+[dev-packages]
+black = "22.10.0"
+isort = "5.10.1"
+
+[requires]
+python_version = "3.10"

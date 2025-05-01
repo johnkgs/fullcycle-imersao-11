@@ -1,0 +1,12 @@
+# Envs
+venv
+.venv
+.env
+
+# Misc
+__pycache__
+.pytest_cache
+dist
+
+## SQLite
+*.sqlite3
